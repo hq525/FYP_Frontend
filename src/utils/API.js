@@ -1,11 +1,21 @@
 import axios from 'axios';
 
 export default class API {
-  constructor() {}
+  config
+  constructor() {
+    this.config = {
+      headers: {
+        Authorization : null 
+      }
+    }
+  }
+  setAuthorizationToken(token) {
+    this.config.headers.Authorization = 'Bearer ' + token
+  }
   get(path) {
     return new Promise((resolve, reject) => {
       axios
-        .get(path)
+        .get(path, this.config)
         .then((response) => {
           resolve(response.data);
         })
@@ -17,7 +27,7 @@ export default class API {
   post(path, data) {
     return new Promise((resolve, reject) => {
       axios
-        .post(path, data)
+        .post(path, data, this.config)
         .then(response => {
           resolve(response.data);
         })
@@ -29,7 +39,7 @@ export default class API {
   put(path, data) {
     return new Promise((resolve, reject) => {
       axios
-        .put(path, data)
+        .put(path, data, this.config)
         .then(response => {
           resolve(response.data);
         })
@@ -41,7 +51,7 @@ export default class API {
   delete(path, data) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(path, data)
+        .delete(path, data, this.config)
         .then(response => {
           resolve(response.data);
         })
