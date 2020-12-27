@@ -3,11 +3,30 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import UserStore from './stores/UserStore';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+let theme = createMuiTheme({
+  palette: {
+    primary: { main: '#003b70' },
+    secondary: { main: '#F7881A' },
+    background: {
+      default: '#FFF',
+    },
+  },
+});
+
+theme = responsiveFontSizes(theme);
+
+export const userStore = new UserStore();
 
 ReactDOM.render(
-  <React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
     <App />
-  </React.StrictMode>,
+  </ThemeProvider>,
   document.getElementById('root')
 );
 
