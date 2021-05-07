@@ -1,0 +1,59 @@
+.marker:hover {
+    position: absolute; 
+    width: 50px; 
+    height: 50px; 
+    left: -25px; 
+    top: -25px; 
+    border: 7px solid #f44336; 
+    border-radius: 40px; 
+    background-color: white; 
+    text-align: center; 
+    color: #3f51b5; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 4;
+    line-height:35px;
+}
+
+.marker {
+    position: absolute; 
+    width: 40px; 
+    height: 40px; 
+    left: -20px; 
+    top: -20px; 
+    border: 5px solid #f44336; 
+    border-radius: 40px; 
+    background-color: white; 
+    text-align: center; 
+    color: #3f51b5; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 4;
+    line-height:30px;
+}
+
+.hoverMarker {
+    position: absolute; 
+    width: 50px; 
+    height: 50px; 
+    left: -25px; 
+    top: -25px; 
+    border: 7px solid #f44336; 
+    border-radius: 40px; 
+    background-color: white; 
+    text-align: center; 
+    color: #3f51b5; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 4;
+    line-height:35px;
+}
+
+.scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}

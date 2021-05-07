@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Theme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, TextField, Checkbox, Paper, Grid, Typography, FormControlLabel, Divider, FormControl, Select, MenuItem} from '@material-ui/core';
 import { observer } from 'mobx-react';
@@ -7,12 +6,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Dropzone from 'react-dropzone'
 import { userStore } from '../index';
-import { ENDPOINT, COLORS } from "../utils/config";
+import { ENDPOINT, COLORS, MAX_FILE_SIZE } from "../utils/config";
 import API from "../utils/API";
 import 'antd/dist/antd.css';
 import { InputNumber } from 'antd';
-
-const MAX_FILE_SIZE = 1048576;
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,11 +46,9 @@ const Login = () => {
     const [registerConfirmPassword, setRegisterConfirmPassword] = useState('');
     const [birthday, setBirthday] = useState(new Date());
     const [householdIncome, setHouseholdIncome] = useState(0);
-    const [addressBlockHouseNo, setAddressBlockHouseNo] = useState('');
-    const [addressStreetName, setAddressStreetName] = useState('');
-    const [addressLevel, setAddressLevel] = useState('');
-    const [addressUnitNo, setAddressUnitNo] = useState('');
-    const [addressBuildingName, setAddressBuildingName] = useState('');
+    const [householdCount, setHouseholdCount] = useState(1);
+    const [addressLine1, setAddressLine1] = useState('');
+    const [addressLine2, setAddressLine2] = useState('');
     const [addressPostalCode, setAddressPostalCode] = useState('');
     const [householdType, setHouseholdType] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -82,20 +77,11 @@ const Login = () => {
         case 'registerConfirmPassword':
             setRegisterConfirmPassword(e.target.value);
             break;
-        case 'addressBlockHouseNo':
-            setAddressBlockHouseNo(e.target.value);
+        case 'addressLine1':
+            setAddressLine1(e.target.value);
             break;
-        case 'addressStreetName':
-            setAddressStreetName(e.target.value);
-            break;
-        case 'addressLevel':
-            setAddressLevel(e.target.value);
-            break;
-        case 'addressUnitNo':
-            setAddressUnitNo(e.target.value);
-            break;
-        case 'addressBuildingName':
-            setAddressBuildingName(e.target.value);
+        case 'addressLine2':
+            setAddressLine2(e.target.value);
             break;
         case 'addressPostalCode':
             setAddressPostalCode(e.target.value);
@@ -156,10 +142,10 @@ const Login = () => {
     const handleRegister = (e) => {
         e.preventDefault();
         setErrorMessage("");
-        if (registerPassword != registerConfirmPassword) {
+        if (registerPassword !== registerConfirmPassword) {
             setErrorMessage("Passwords do not match");
         } 
-        else if (householdType == "") {
+        else if (householdType === "") {
             setErrorMessage("Please select a household type");
         } else {
             let api = new API();
@@ -171,11 +157,10 @@ const Login = () => {
                 lastName : lastName,
                 birthday : `${birthday.getFullYear().toString().padStart(4,'0')}-${(birthday.getMonth()+1).toString().padStart(2, '0')}-${birthday.getDate().toString().padStart(2,'0')}`,
                 income : householdIncome,
+                householdCount,
                 householdType: householdType,
-                addressBlockHouseNo: addressBlockHouseNo,
-                addressStreetName: addressStreetName,
-                addressLevel: addressLevel,
-                addressUnitNo: addressUnitNo,
+                addressLine1: addressLine1,
+                addressLine2: addressLine2,
                 addressPostalCode: addressPostalCode
             })
             .then((data) => {
@@ -184,12 +169,11 @@ const Login = () => {
                 setRegister(false);
             })
             .catch((err) => {
-                console.log(err)
-                // if(err.data && err.data.message) {
-                //     setErrorMessage(err.data.message);
-                // } else {
-                //     setErrorMessage("An error occurred")
-                // }
+                if(err.data && err.data.message) {
+                    setErrorMessage(err.data.message);
+                } else {
+                    setErrorMessage("An error occurred")
+                }
             })
         }
     }
@@ -399,6 +383,18 @@ const Login = () => {
                             <InputNumber min={0} value={householdIncome} onChange={(value) => {setHouseholdIncome(value)}} />
                         </Grid>
                     </Grid>
+                    <Grid container>
+                        <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
+                            <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
+                                <Typography component="h1" variant="h4" align="left">
+                                    Household Member Count:
+                                </Typography>
+                            </div>
+                        </Grid>
+                        <Grid item lg={8} md={8} sm={8} xs={8} style={{display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
+                            <InputNumber min={0} value={householdCount} onChange={(value) => {setHouseholdCount(value)}} />
+                        </Grid>
+                    </Grid>
                     <div style={{marginTop: "10px"}}></div>
                     <Typography component="h1" variant="h4" align="center">
                         Upload Profile Picture (Optional)
@@ -432,99 +428,36 @@ const Login = () => {
                     <div style={{marginTop: "10px"}}></div>
                     <Divider variant="middle" />
                     <div style={{marginTop: "10px"}}></div>
-                    <Grid container>
-                        <Grid item lg={5} md={5} sm={5} xs={5}>
-                            <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                <Typography component="h1" variant="h5" align="left">
-                                    Block/House No
-                                </Typography>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="addressBlockHouseNo"
-                                    id="addressBlockHouseNo"
-                                    value={addressBlockHouseNo}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </Grid>
-                        <Grid item lg={7} md={7} sm={7} xs={7}>
-                            <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                <Typography component="h1" variant="h5" align="left">
-                                    Street Name
-                                </Typography>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="addressStreetName"
-                                    id="addressStreetName"
-                                    value={addressStreetName}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </Grid>
-                    </Grid>
-                    <Grid container>
-                        <Grid item lg={5} md={5} sm={5} xs={5}>
-                            <Grid container>
-                                <Grid item lg={5} md={5} sm={5} xs={5}>
-                                    <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                        <Typography component="h1" variant="h5" align="left">
-                                            Level
-                                        </Typography>
-                                        <TextField
-                                            variant="outlined"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            name="addressLevel"
-                                            id="addressLevel"
-                                            value={addressLevel}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </Grid>
-                                <Grid item lg={7} md={7} sm={7} xs={7}>
-                                    <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                        <Typography component="h1" variant="h5" align="left">
-                                            Unit No
-                                        </Typography>
-                                        <TextField
-                                            variant="outlined"
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            name="addressUnitNo"
-                                            id="addressUnitNo"
-                                            value={addressUnitNo}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item lg={7} md={7} sm={7} xs={7}>
-                            <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                <Typography component="h1" variant="h5" align="left">
-                                    Building Name
-                                </Typography>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="addressBuildingName"
-                                    id="addressBuildingName"
-                                    value={addressBuildingName}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </Grid>
-                    </Grid>
+                    <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
+                        <Typography component="h1" variant="h5" align="left">
+                            Address Line 1
+                        </Typography>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="addressLine1"
+                            id="addressLine1"
+                            value={addressLine1}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
+                        <Typography component="h1" variant="h5" align="left">
+                            Address Line 2
+                        </Typography>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="addressLine2"
+                            id="addressLine2"
+                            value={addressLine2}
+                            onChange={handleChange}
+                        />
+                    </div>
                     <Grid container>
                         <Grid item lg={5} md={5} sm={5} xs={5}>
                             <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
@@ -548,7 +481,7 @@ const Login = () => {
                                 <Typography component="h1" variant="h5" align="left">
                                     Household Type
                                 </Typography>
-                                <FormControl margin="normal" variant="outlined" className={classes.formControl}>
+                                <FormControl margin="normal" variant="outlined">
                                     <Select
                                     id="householdType"
                                     value={householdType}

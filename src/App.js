@@ -4,12 +4,31 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { userStore } from "./index";
 import { observer } from "mobx-react";
 import API from './utils/API';
-import { ENDPOINT } from "./utils/config";
+import { ENDPOINT, COLORS } from "./utils/config";
 import { Snackbar, CircularProgress } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import NavBar from "./NavBar";
 import Login from "./auth/Login";
+import Profile from "./components/Profile";
+import PasswordEdit from "./components/PasswordEdit";
+import Calendar from "./components/Calendar";
+import Donor from "./components/Donor";
+import Credit from "./components/Credit"
 import Main from "./Main";
+import MainAdmin from "./admin/MainAdmin";
+import RequestMain from "./request/RequestMain";
+import DeliveryMain from "./delivery/DeliveryMain";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: COLORS.BLACK,
+      secondary: COLORS.RED
+    }
+  }
+});
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -36,8 +55,35 @@ function App() {
         })        
       })
       .catch((error) => {
-        userStore.setAuthenticated(false);
-        setLoading(false);
+        if (error && error.data && error.data.error === "token_expired") {
+          if(localStorage.refresh_token) {
+            api
+            .refreshToken()
+            .then(() => {
+              api
+              .get(`${ENDPOINT}/user`)
+              .then((data) => {
+                userStore.setUser(data.user);
+                userStore.setAuthenticated(true);
+                setLoading(false);
+              })
+              .catch((error) => {
+                userStore.setAuthenticated(false);
+                setLoading(false);
+              })        
+            })
+            .catch(() => {
+              userStore.setAuthenticated(false);
+              setLoading(false);
+            })
+          } else {
+            userStore.setAuthenticated(false);
+            setLoading(false);
+          }
+        } else {
+          userStore.setAuthenticated(false);
+          setLoading(false);
+        }
       })
     } else {
       setLoading(false);
@@ -83,26 +129,36 @@ function App() {
     } else {
       return (
         <div className="App">
-          <BrowserRouter>
-            <Route path="/" render={() => <Main logout={logout} setError={setError} />} exact />
-          </BrowserRouter>
-          <Snackbar 
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          open={errorBarOpen}
-          autoHideDuration={6000}
-          onClose={closeError}
-          message={errorText}
-          action={
-            <React.Fragment>
-              <IconButton size="small" aria-label="close" color="inherit" onClick={closeError}>
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </React.Fragment>
-          }
-          />
+          <MuiThemeProvider theme={theme}>
+            <BrowserRouter>
+              <Route path="/" render={() => <Main logout={logout} setError={setError} />} exact />
+              <Route path="/calendar" render={() => <Calendar logout={logout} setError={setError} />} exact />
+              <Route path="/profile" render={() => <Profile logout={logout} setError={setError} />} exact />
+              <Route path="/password/edit" render={() => <PasswordEdit logout={logout} setError={setError} />} exact />
+              <Route path="/admin" render={() => <MainAdmin logout={logout} setError={setError} />} exact />
+              <Route path="/donor" render={() => <Donor logout={logout} setError={setError} />} exact />
+              <Route path="/request" render={() => <RequestMain logout={logout} setError={setError} />} exact />
+              <Route path="/delivery" render={() => <DeliveryMain logout={logout} setError={setError} />} exact />
+              <Route path="/credit" render={() => <Credit logout={logout} setError={setError} />} exact />
+            </BrowserRouter>
+            <Snackbar 
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            open={errorBarOpen}
+            autoHideDuration={6000}
+            onClose={closeError}
+            message={errorText}
+            action={
+              <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={closeError}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+            />
+          </MuiThemeProvider>
         </div>
       )
     }

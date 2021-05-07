@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ENDPOINT } from './config';
 
 export default class API {
   config
@@ -11,6 +12,24 @@ export default class API {
   }
   setAuthorizationToken(token) {
     this.config.headers.Authorization = 'Bearer ' + token
+  }
+  refreshToken() {
+    return new Promise((resolve, reject) => {
+      if (localStorage.refresh_token) {
+        this.config.headers.Authorization = 'Bearer ' + localStorage.refresh_token
+        this
+        .post(`${ENDPOINT}/refresh`,{})
+        .then((data) => {
+          localStorage.access_token = data.access_token
+          resolve()
+        })
+        .catch((error) => {
+          reject()
+        })
+      } else {
+        reject()
+      }  
+    })
   }
   get(path) {
     return new Promise((resolve, reject) => {
@@ -51,13 +70,16 @@ export default class API {
   delete(path, data) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(path, data, this.config)
-        .then(response => {
-          resolve(response.data);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
+      .delete(path, {
+        headers: this.config.headers,
+        data
+      })
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(error => {
+        reject(error.response);
+      });
     });
   }
 }

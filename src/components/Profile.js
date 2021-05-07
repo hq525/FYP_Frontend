@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { userStore } from "../index";
 import { observer } from "mobx-react";
 import { Grid, Typography, Button, TextField, Select, MenuItem, FormControl, Divider } from "@material-ui/core";
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import NavBar from "../NavBar";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,11 +21,8 @@ const Profile = (props) => {
     const [birthday, setBirthday] = useState(new Date(userStore.user.birthday))
     const [householdIncome, setHouseholdIncome] = useState(userStore.user.income)
     const [householdType, setHouseholdType] = useState(userStore.user.householdType)
-    const [addressBlockHouseNo, setAddressBlockHouseNo] = useState(userStore.user.addressBlockHouseNo)
-    const [addressStreetName, setAddressStreetName] = useState(userStore.user.addressStreetName)
-    const [addressLevel, setAddressLevel] = useState(userStore.user.addressLevel)
-    const [addressUnitNo, setAddressUnitNo] = useState(userStore.user.addressUnitNo)
-    const [addressBuildingName, setAddressBuildingName] = useState(userStore.user.addressBuildingName)
+    const [addressLine1, setAddressLine1] = useState(userStore.user.addressLine1)
+    const [addressLine2, setAddressLine2] = useState(userStore.user.addressLine2)
     const [addressPostalCode, setAddressPostalCode] = useState(userStore.user.addressPostalCode)
     const [picture, setPicture] = useState(userStore.user.picture)
 
@@ -37,7 +34,7 @@ const Profile = (props) => {
 
     const handleUpdate = (e) => {
         e.preventDefault()
-        if (householdType == "") {
+        if (householdType === "") {
             props.setError("Please select a household type")
         } else {
             let api = new API();
@@ -50,10 +47,8 @@ const Profile = (props) => {
                 "birthday": `${birthday.getFullYear().toString().padStart(4,'0')}-${(birthday.getMonth()+1).toString().padStart(2, '0')}-${birthday.getDate().toString().padStart(2,'0')}`,
                 "income": householdIncome,
                 "householdType": householdType,
-                "addressBlockHouseNo": addressBlockHouseNo,
-                "addressStreetName": addressStreetName,
-                "addressLevel": addressLevel,
-                "addressUnitNo": addressUnitNo,
+                "addressLine1" : addressLine1,
+                "addressLine2" : addressLine2,
                 "addressPostalCode": addressPostalCode
             })
             .then((data) => {
@@ -66,11 +61,8 @@ const Profile = (props) => {
                     income : householdIncome,
                     picture,
                     householdType,
-                    addressBlockHouseNo,
-                    addressStreetName,
-                    addressLevel,
-                    addressUnitNo,
-                    addressBuildingName,
+                    addressLine1,
+                    addressLine2,
                     addressPostalCode
                 })
                 setEdit(false)
@@ -90,10 +82,8 @@ const Profile = (props) => {
                                 "birthday": `${birthday.getFullYear().toString().padStart(4,'0')}-${(birthday.getMonth()+1).toString().padStart(2, '0')}-${birthday.getDate().toString().padStart(2,'0')}`,
                                 "income": householdIncome,
                                 "householdType": householdType,
-                                "addressBlockHouseNo": addressBlockHouseNo,
-                                "addressStreetName": addressStreetName,
-                                "addressLevel": addressLevel,
-                                "addressUnitNo": addressUnitNo,
+                                "addressLine1": addressLine1,
+                                "addressLine2": addressLine2,
                                 "addressPostalCode": addressPostalCode
                             })
                             .then((data) => {
@@ -106,11 +96,8 @@ const Profile = (props) => {
                                     income : householdIncome,
                                     picture,
                                     householdType,
-                                    addressBlockHouseNo,
-                                    addressStreetName,
-                                    addressLevel,
-                                    addressUnitNo,
-                                    addressBuildingName,
+                                    addressLine1,
+                                    addressLine2,
                                     addressPostalCode
                                 })
                                 setEdit(false)
@@ -243,96 +230,40 @@ const Profile = (props) => {
                     <div style={{marginTop: "10px"}}></div>
                     <Divider variant="middle" />
                 </div>
+                <div style={{marginTop: "10px"}}></div>
+                <div style={{padding: "10px 20px"}}>
+                    <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
+                        <Typography component="h1" variant="h5" align="left">
+                            Address Line 1
+                        </Typography>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="addressLine1"
+                            id="addressLine1"
+                            value={addressLine1}
+                            onChange={(e) => {setAddressLine1(e.target.value)}}
+                        />
+                    </div>
+                    <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
+                        <Typography component="h1" variant="h5" align="left">
+                            Address Line 2
+                        </Typography>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="addressLine2"
+                            id="addressLine2"
+                            value={addressLine2}
+                            onChange={(e) => {setAddressLine2(e.target.value)}}
+                        />
+                    </div>
+                </div>
                 <Grid container style={{padding: "10px 20px"}}>
-                    <Grid item lg={6} md={6} sm={6} xs={6}>
-                        <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                            <Typography component="h1" variant="h5" align="left">
-                                Block / House No
-                            </Typography>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="addressBlockHouseNo"
-                                id="addressBlockHouseNo"
-                                value={addressBlockHouseNo}
-                                onChange={(e) => {setAddressBlockHouseNo(e.target.value)}}
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item lg={6} md = {6} sm = {6} xs={6}>
-                        <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                            <Typography component="h1" variant="h5" align="left">
-                                Street Name
-                            </Typography>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="addressStreetName"
-                                id="addressStreetName"
-                                value={addressStreetName}
-                                onChange={(e) => {setAddressStreetName(e.target.value)}}
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item lg={6} md = {6} sm = {6} xs={6}>
-                        <Grid container>
-                            <Grid item lg={5} md={5} sm={5} xs={5}>
-                                <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                    <Typography component="h1" variant="h5" align="left">
-                                        Level
-                                    </Typography>
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="addressLevel"
-                                        id="addressLevel"
-                                        value={addressLevel}
-                                        onChange={(e) => {setAddressLevel(e.target.value)}}
-                                    />
-                                </div>
-                            </Grid>
-                            <Grid item lg={7} md={7} sm={7} xs={7}>
-                                <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                    <Typography component="h1" variant="h5" align="left">
-                                        Unit No
-                                    </Typography>
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="addressUnitNo"
-                                        id="addressUnitNo"
-                                        value={addressUnitNo}
-                                        onChange={(e) => {setAddressUnitNo(e.target.value)}}
-                                    />
-                                </div>
-                            </Grid> 
-                        </Grid>
-                    </Grid>
-                    <Grid item lg={6} md = {6} sm = {6} xs={6}>
-                        <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                            <Typography component="h1" variant="h5" align="left">
-                                Building Name
-                            </Typography>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="addressBuildingName"
-                                id="addressBuildingName"
-                                value={addressBuildingName}
-                                onChange={(e) => {setAddressBuildingName(e.target.value)}}
-                            />
-                        </div>
-                    </Grid>
                     <Grid item lg={6} md = {6} sm = {6} xs={6}>
                         <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
                             <Typography component="h1" variant="h5" align="left">
@@ -405,11 +336,11 @@ const Profile = (props) => {
                 <NavBar {...props}  />
                 <div style={{marginTop: '20px'}} />
                 <Grid container>
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <AccountCircleOutlinedIcon style={{fontSize: '200px'}} />
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                        <AccountCircleIcon style={{fontSize: '200px'}} />
                     </Grid>
-                    <Grid item lg={8} md={8} sm={12} xs={12}>
-                        <Typography style={{display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'flex-start'}} variant="h2">
+                    <Grid item lg={9} md={9} sm={12} xs={12}>
+                        <Typography style={{display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '20px'}} variant="h2">
                             <b>{`${userStore.user.firstName} ${userStore.user.lastName}`}</b>
                         </Typography>
                     </Grid>
@@ -432,8 +363,8 @@ const Profile = (props) => {
                         </Typography>
                     </Grid>
                     <Grid item lg={9} md={9} sm={9} xs={9} style={{display: 'flex', justifyContent: 'flex-start', marginTop: '40px'}}>
-                        <Typography style={{color: COLORS.BLACK, paddingLeft: '20px'}} variant="h3">
-                            <b>{`BLK ${userStore.user.addressBlockHouseNo}, ${userStore.user.addressStreetName}, #${userStore.user.addressLevel}-${userStore.user.addressUnitNo}, Singapore ${userStore.user.addressPostalCode}`}</b>
+                        <Typography style={{color: COLORS.BLACK, paddingLeft: '20px', display: 'flex', justifyContent: 'flex-start'}} variant="h3">
+                            <b style={{textAlign: "left"}}>{`${userStore.user.addressLine1}, ${userStore.user.addressLine2}, Singapore ${userStore.user.addressPostalCode}`}</b>
                         </Typography>
                     </Grid>
                     <Grid item lg={3} md={3} sm={3} xs={3} style={{display: 'flex', justifyContent: 'flex-start', marginTop: '40px'}}>

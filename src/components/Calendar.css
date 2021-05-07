@@ -1,0 +1,12 @@
+.available {
+    background-color: #D3E3FC !important;
+    color: black !important;
+}
+
+.available:hover {
+    background-color: rgb(191, 217, 255) !important;
+}
+
+.available:click {
+    background-color: rgb(223, 235, 253) !important;
+}
