@@ -11,5 +11,5 @@ export const COLORS = {
     GREY : '#707070'
 }
 export const MAX_FILE_SIZE = 1048576;
-export const MAP_KEY = 'AIzaSyBTBLuj696cM7JU1eHkym5lprVix9Usk3k'
+export const MAP_KEY = '*Your API key here'
 export const MIN_YEAR = 2020;
