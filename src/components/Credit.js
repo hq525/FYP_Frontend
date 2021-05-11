@@ -149,8 +149,8 @@ const Credit = (props) => {
         return (
             <div style={{height: "100%", backgroundColor: COLORS.WHITE}}>
                 <NavBar {...props}  />
-                <div style={{width: "100%", height: "auto", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <CircularProgress size={50} />
+                <div style={{width: "100%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <CircularProgress size={100} />
                 </div>
             </div>
         )

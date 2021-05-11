@@ -16,6 +16,7 @@ import PasswordEdit from "./components/PasswordEdit";
 import Calendar from "./components/Calendar";
 import Donor from "./components/Donor";
 import Credit from "./components/Credit"
+import Purchase from "./components/Purchase";
 import Main from "./Main";
 import MainAdmin from "./admin/MainAdmin";
 import RequestMain from "./request/RequestMain";
@@ -140,6 +141,7 @@ function App() {
               <Route path="/request" render={() => <RequestMain logout={logout} setError={setError} />} exact />
               <Route path="/delivery" render={() => <DeliveryMain logout={logout} setError={setError} />} exact />
               <Route path="/credit" render={() => <Credit logout={logout} setError={setError} />} exact />
+              <Route path="/purchase" render={() => <Purchase logout={logout} setError={setError} />} exact />
             </BrowserRouter>
             <Snackbar 
             anchorOrigin={{

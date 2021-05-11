@@ -586,8 +586,8 @@ const Landing = (props) => {
 
     if (loading) {
         return (
-            <div style={{width: "100%", height: "auto", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                <CircularProgress size={50} />
+            <div style={{width: "100%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <CircularProgress size={100} />
             </div>
         )
     } else {

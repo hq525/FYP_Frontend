@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { userStore } from "../index";
 import { observer } from "mobx-react";
-import { Grid, Typography, Button, TextField, Select, MenuItem, FormControl, Divider } from "@material-ui/core";
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { 
+    Grid, 
+    Typography, 
+    Button, 
+    TextField, 
+    Select, 
+    MenuItem, 
+    FormControl, 
+    Divider,
+    Avatar 
+} from "@material-ui/core";
 import NavBar from "../NavBar";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,8 +21,17 @@ import 'antd/dist/antd.css';
 import { InputNumber } from 'antd';
 import Dropzone from 'react-dropzone'
 import API from "../utils/API";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    large: {
+      width: theme.spacing(15),
+      height: theme.spacing(15),
+    },
+  }));
 
 const Profile = (props) => {
+    const classes = useStyles();
     const [edit, setEdit] = useState(false);
     const [firstName, setFirstName] = useState(userStore.user.firstName);
     const [lastName, setLastName] = useState(userStore.user.lastName);
@@ -130,7 +148,7 @@ const Profile = (props) => {
             <div style={{height: "100%", backgroundColor: COLORS.WHITE}}>
                 <NavBar {...props}  />
                 <div style={{marginTop: '20px'}} />
-                <Grid container>
+                <Grid style={{padding: "30px"}} container>
                     <Grid item sm={12} lg={12} md={12} xs={12} style={{display: 'flex', justifyContent: 'flex-start'}}>
                         <span style={{paddingLeft: '20px', cursor: 'pointer'}} onClick={() => {setEdit(false)}}><ArrowBackIcon style={{fontSize: '100px'}} /></span>
                     </Grid>
@@ -195,7 +213,7 @@ const Profile = (props) => {
                     </Grid>
                     <Grid item lg={3} md={3} sm={3} xs={3} >
                         <Typography style={{color: COLORS.GREEN, paddingLeft: '20px', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}} variant="h3">
-                            <b>Household Income</b>
+                            <b style={{textAlign: "left"}}>Household Income</b>
                         </Typography>
                     </Grid>
                     <Grid item lg={9} md={9} sm={9} xs={9} style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
@@ -203,7 +221,7 @@ const Profile = (props) => {
                     </Grid>
                     <Grid item lg={3} md={3} sm={3} xs={3} >
                         <Typography style={{color: COLORS.GREEN, paddingLeft: '20px', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}} variant="h3">
-                            <b>Household Type</b>
+                            <b style={{textAlign: "left"}}>Household Type</b>
                         </Typography>
                     </Grid>
                     <Grid item lg={9} md={9} sm={9} xs={9} style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
@@ -231,7 +249,7 @@ const Profile = (props) => {
                     <Divider variant="middle" />
                 </div>
                 <div style={{marginTop: "10px"}}></div>
-                <div style={{padding: "10px 20px"}}>
+                <div style={{paddingLeft: "30px", paddingRight: "30px"}}>
                     <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
                         <Typography component="h1" variant="h5" align="left">
                             Address Line 1
@@ -263,7 +281,7 @@ const Profile = (props) => {
                         />
                     </div>
                 </div>
-                <Grid container style={{padding: "10px 20px"}}>
+                <Grid container style={{paddingLeft: "30px", paddingRight: "30px"}}>
                     <Grid item lg={6} md = {6} sm = {6} xs={6}>
                         <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
                             <Typography component="h1" variant="h5" align="left">
@@ -286,29 +304,32 @@ const Profile = (props) => {
                 <Typography component="h1" variant="h4" align="center">
                     Profile Picture
                 </Typography>
+                <div style={{marginTop: "10px", paddingLeft: "20px", paddingRight: "20px"}}>
+                    <Divider variant="middle" />
+                </div>
                 <div style={{marginTop: "10px"}}></div>
-                <Divider variant="middle" />
-                <div style={{marginTop: "10px"}}></div>
-                <Dropzone multiple={false} accept="image/*" onDrop={onDrop} minSize={0} maxSize={MAX_FILE_SIZE}>
-                    {({getRootProps, getInputProps, isDragActive, isDragReject, rejectedFiles}) => {
-                        const isFileTooLarge = rejectedFiles ? (rejectedFiles.length > 0 && rejectedFiles[0].size > MAX_FILE_SIZE) : false;
-                        return (
-                            <section>
-                            <div {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                {isDragActive ? (!isDragReject && "Drop file here!") : (picture ? (picture.name) : ('Click here or drop a file to upload!'))}
-                                {isDragReject && "File type not accepted, sorry!"}
-                                {isFileTooLarge && (
-                                    <div className="text-danger mt-2">
-                                    File is too large.
-                                    </div>
-                                )}
+                <div style={{border: "1px dashed black", height: "100px", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "30px", marginRight: "30px"}}>
+                    <Dropzone multiple={false} accept="image/*" onDrop={onDrop} minSize={0} maxSize={MAX_FILE_SIZE}>
+                        {({getRootProps, getInputProps, isDragActive, isDragReject, rejectedFiles}) => {
+                            const isFileTooLarge = rejectedFiles ? (rejectedFiles.length > 0 && rejectedFiles[0].size > MAX_FILE_SIZE) : false;
+                            return (
+                                <section>
+                                <div {...getRootProps()}>
+                                    <input {...getInputProps()} />
+                                    {isDragActive ? (!isDragReject && "Drop file here!") : (picture ? (picture.name) : ('Click here or drop a file to upload!'))}
+                                    {isDragReject && "File type not accepted, sorry!"}
+                                    {isFileTooLarge && (
+                                        <div className="text-danger mt-2">
+                                        File is too large.
+                                        </div>
+                                    )}
 
-                            </div>
-                            </section>
-                        )
-                    }}
-                </Dropzone>
+                                </div>
+                                </section>
+                            )
+                        }}
+                    </Dropzone>
+                </div>
                 <div style={{marginTop: '20px'}} />
                 <Button
                 type="submit"
@@ -336,11 +357,11 @@ const Profile = (props) => {
                 <NavBar {...props}  />
                 <div style={{marginTop: '20px'}} />
                 <Grid container>
-                    <Grid item lg={3} md={3} sm={12} xs={12}>
-                        <AccountCircleIcon style={{fontSize: '200px'}} />
+                    <Grid item lg={3} md={3} sm={12} xs={12} style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                        <Avatar className={classes.large} src="https://tse4.mm.bing.net/th?id=OIP.EYWUoJwu63yE6_AMbZ_X9gHaFj&pid=Api&P=0&w=213&h=161" />
                     </Grid>
                     <Grid item lg={9} md={9} sm={12} xs={12}>
-                        <Typography style={{display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '20px'}} variant="h2">
+                        <Typography style={{display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '20px', color: COLORS.BLUE}} variant="h2">
                             <b>{`${userStore.user.firstName} ${userStore.user.lastName}`}</b>
                         </Typography>
                     </Grid>
@@ -348,7 +369,7 @@ const Profile = (props) => {
                 <div style={{marginTop: '20px'}} />
                 <Grid container>
                     <Grid item lg={3} md={3} sm={3} xs={3} style={{display: 'flex', justifyContent: 'flex-start'}}>
-                        <Typography style={{color: COLORS.GREEN, paddingLeft: '20px'}} variant="h3">
+                        <Typography style={{color: COLORS.GREEN, paddingLeft: '50px'}} variant="h3">
                             <b>Email</b>
                         </Typography>
                     </Grid>
@@ -358,7 +379,7 @@ const Profile = (props) => {
                         </Typography>
                     </Grid>
                     <Grid item lg={3} md={3} sm={3} xs={3} style={{display: 'flex', justifyContent: 'flex-start', marginTop: '40px'}}>
-                        <Typography style={{color: COLORS.GREEN, paddingLeft: '20px'}} variant="h3">
+                        <Typography style={{color: COLORS.GREEN, paddingLeft: '50px'}} variant="h3">
                             <b>Address</b>
                         </Typography>
                     </Grid>
@@ -368,7 +389,7 @@ const Profile = (props) => {
                         </Typography>
                     </Grid>
                     <Grid item lg={3} md={3} sm={3} xs={3} style={{display: 'flex', justifyContent: 'flex-start', marginTop: '40px'}}>
-                        <Typography style={{color: COLORS.GREEN, paddingLeft: '20px'}} variant="h3">
+                        <Typography style={{color: COLORS.GREEN, paddingLeft: '50px'}} variant="h3">
                             <b>Birthday</b>
                         </Typography>
                     </Grid>
@@ -378,8 +399,8 @@ const Profile = (props) => {
                         </Typography>
                     </Grid>
                     <Grid item lg={3} md={3} sm={3} xs={3} style={{display: 'flex', justifyContent: 'flex-start', marginTop: '40px'}}>
-                        <Typography style={{color: COLORS.GREEN, paddingLeft: '20px'}} variant="h3">
-                            <b>Household Income</b>
+                        <Typography style={{color: COLORS.GREEN, paddingLeft: '50px', display: 'flex', justifyContent: 'flex-start'}} variant="h3">
+                            <b style={{textAlign: "left"}}>Household Income</b>
                         </Typography>
                     </Grid>
                     <Grid item lg={9} md={9} sm={9} xs={9} style={{display: 'flex', justifyContent: 'flex-start', marginTop: '40px'}}>
@@ -388,8 +409,8 @@ const Profile = (props) => {
                         </Typography>
                     </Grid>
                     <Grid item lg={3} md={3} sm={3} xs={3} style={{display: 'flex', justifyContent: 'flex-start', marginTop: '40px'}}>
-                        <Typography style={{color: COLORS.GREEN, paddingLeft: '20px'}} variant="h3">
-                            <b>Household Type</b>
+                        <Typography style={{color: COLORS.GREEN, paddingLeft: '50px', display: 'flex', justifyContent: 'flex-start'}} variant="h3">
+                            <b style={{textAlign: "left"}}>Household Type</b>
                         </Typography>
                     </Grid>
                     <Grid item lg={9} md={9} sm={9} xs={9} style={{display: 'flex', justifyContent: 'flex-start', marginTop: '40px'}}>
@@ -410,7 +431,8 @@ const Profile = (props) => {
                     fontSize: "18px",
                     color: COLORS.WHITE,
                     marginLeft : '10px',
-                    maxWidth: '200px'
+                    maxWidth: '200px',
+                    marginBottom: "20px"
                 }}
                 onClick={() => {
                     setEdit(true);

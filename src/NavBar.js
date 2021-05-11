@@ -19,6 +19,7 @@ function NavBar(props) {
     const [redirectRequest, setRedirectRequest] = React.useState(false);
     const [redirectDelivery, setRedirectDelivery] = React.useState(false);
     const [redirectCredit, setRedirectCredit] = React.useState(false);
+    const [redirectPurchase, setRedirectPurchase] = React.useState(false);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -33,6 +34,9 @@ function NavBar(props) {
     } 
     else if (redirectCredit && (location.pathname !== "/credit")) {
         return (<Redirect to={{pathname: "/credit"}}/>)
+    }
+    else if (redirectPurchase && (location.pathname !== "/purchase")) {
+        return (<Redirect to={{pathname: "/purchase"}}/>)
     }
     else if (redirectPasswordEdit && (location.pathname !== "/password/edit")) {
         return (<Redirect to={{pathname: "/password/edit"}}/>)
@@ -92,6 +96,9 @@ function NavBar(props) {
                             </MenuItem>
                             <MenuItem onClick={() => {setRedirectCredit(true)}}>
                                 Social Credit
+                            </MenuItem>
+                            <MenuItem onClick={() => {setRedirectPurchase(true)}}>
+                                Purchase
                             </MenuItem>
                             <MenuItem onClick={() => {setRedirectAdmin(true)}}>
                                 Admin

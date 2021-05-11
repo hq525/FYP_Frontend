@@ -249,13 +249,13 @@ const Login = () => {
         return (
             <div style={{backgroundColor: '#D3E3FC', paddingTop: '50px', paddingBottom: '50px', display : 'flex', justifyContent: 'center'}}>
                 <Paper className={classes.paper} style={{width: "50%", border: "1px solid black", borderRadius: "25px"}}>
-                    <Typography component="h1" variant="h4" align="center">
+                    <Typography component="h1" variant="h4" align="center" style={{color: COLORS.BLUE}}>
                         <b>Register</b>
                     </Typography>
                     <Grid container>
                         <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
                             <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                            <Typography component="h1" variant="h4" align="left">
+                            <Typography component="h1" variant="h4" align="left" style={{color: COLORS.BLUE}}>
                                 First Name:
                             </Typography>
                             </div>
@@ -276,7 +276,7 @@ const Login = () => {
                     <Grid container>
                         <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
                             <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                            <Typography component="h1" variant="h4" align="left">
+                            <Typography component="h1" variant="h4" align="left" style={{color: COLORS.BLUE}}>
                                 Last Name:
                             </Typography>
                             </div>
@@ -297,7 +297,7 @@ const Login = () => {
                     <Grid container>
                         <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
                             <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                            <Typography component="h1" variant="h4" align="left">
+                            <Typography component="h1" variant="h4" align="left" style={{color: COLORS.BLUE}}>
                                 Email:
                             </Typography>
                             </div>
@@ -318,7 +318,7 @@ const Login = () => {
                     <Grid container>
                         <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
                             <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                            <Typography component="h1" variant="h4" align="left">
+                            <Typography component="h1" variant="h4" align="left" style={{color: COLORS.BLUE}}>
                                 Password:
                             </Typography>
                             </div>
@@ -340,7 +340,7 @@ const Login = () => {
                     <Grid container>
                         <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
                             <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                            <Typography component="h1" variant="h4" align="left">
+                            <Typography component="h1" variant="h4" align="left" style={{color: COLORS.BLUE}}>
                                 Confirm Password:
                             </Typography>
                             </div>
@@ -362,19 +362,19 @@ const Login = () => {
                     <Grid container>
                         <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
                             <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                            <Typography component="h1" variant="h4" align="left">
+                            <Typography component="h1" variant="h4" align="left" style={{color: COLORS.BLUE}}>
                                 Birthday:
                             </Typography>
                             </div>
                         </Grid>
-                        <Grid item lg={8} md={8} sm={8} xs={8} style={{display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                            <DatePicker selected={birthday} maxDate={new Date()} showYearDropdown minDate={new Date(1900,1,1)} onChange={date => setBirthday(date)} />
+                        <Grid item lg={8} md={8} sm={8} xs={8} style={{display: "flex", justifyContent: "flex-start", alignItems: "center", height: "50px"}}>
+                            <DatePicker style={{height: "20px"}} selected={birthday} maxDate={new Date()} showYearDropdown minDate={new Date(1900,1,1)} onChange={date => setBirthday(date)} />
                         </Grid>
                     </Grid>
                     <Grid container>
                         <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
                             <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                                <Typography component="h1" variant="h4" align="left">
+                                <Typography component="h1" variant="h4" align="left" style={{color: COLORS.BLUE}}>
                                     Household Income:
                                 </Typography>
                             </div>
@@ -386,7 +386,7 @@ const Login = () => {
                     <Grid container>
                         <Grid item lg={4} md={4} sm={4} xs={4} style={{display:"flex", alignItems: "center"}}>
                             <div style={{width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                                <Typography component="h1" variant="h4" align="left">
+                                <Typography component="h1" variant="h4" align="left" style={{color: COLORS.BLUE}}>
                                     Household Member Count:
                                 </Typography>
                             </div>
@@ -396,40 +396,47 @@ const Login = () => {
                         </Grid>
                     </Grid>
                     <div style={{marginTop: "10px"}}></div>
-                    <Typography component="h1" variant="h4" align="center">
+                    <Typography component="h1" variant="h4" align="center" style={{color: COLORS.BLUE}}>
                         Upload Profile Picture (Optional)
                     </Typography>
                     <div style={{marginTop: "10px"}}></div>
-                    <Divider variant="middle" />
-                    <Dropzone multiple={false} accept="image/*" onDrop={onDrop} minSize={0} maxSize={MAX_FILE_SIZE}>
-                        {({getRootProps, getInputProps, isDragActive, isDragReject, rejectedFiles}) => {
-                            const isFileTooLarge = rejectedFiles ? (rejectedFiles.length > 0 && rejectedFiles[0].size > MAX_FILE_SIZE) : false;
-                            return (
-                                <section>
-                                <div {...getRootProps()}>
-                                    <input {...getInputProps()} />
-                                    {isDragActive ? (!isDragReject && "Drop file here!") : (picture ? (picture.name) : ('Click here or drop a file to upload!'))}
-                                    {isDragReject && "File type not accepted, sorry!"}
-                                    {isFileTooLarge && (
-                                        <div className="text-danger mt-2">
-                                        File is too large.
-                                        </div>
-                                    )}
+                    <div style={{border: "1px dashed black", height: "100px", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                        <Dropzone 
+                        multiple={false} 
+                        accept="image/*" 
+                        onDrop={onDrop} 
+                        minSize={0} 
+                        maxSize={MAX_FILE_SIZE}
+                        >
+                            {({getRootProps, getInputProps, isDragActive, isDragReject, rejectedFiles}) => {
+                                const isFileTooLarge = rejectedFiles ? (rejectedFiles.length > 0 && rejectedFiles[0].size > MAX_FILE_SIZE) : false;
+                                return (
+                                    <section>
+                                    <div {...getRootProps()}>
+                                        <input {...getInputProps()} />
+                                        {isDragActive ? (!isDragReject && "Drop file here!") : (picture ? (picture.name) : ('Click here or drop a file to upload!'))}
+                                        {isDragReject && "File type not accepted, sorry!"}
+                                        {isFileTooLarge && (
+                                            <div className="text-danger mt-2">
+                                            File is too large.
+                                            </div>
+                                        )}
 
-                                </div>
-                                </section>
-                            )
-                        }}
-                    </Dropzone>
+                                    </div>
+                                    </section>
+                                )
+                            }}
+                        </Dropzone>
+                    </div>
                     <div style={{marginTop: "10px"}}></div>
-                    <Typography component="h1" variant="h4" align="center">
+                    <Typography component="h1" variant="h4" align="center" style={{color: COLORS.BLUE}}>
                         Address
                     </Typography>
                     <div style={{marginTop: "10px"}}></div>
                     <Divider variant="middle" />
                     <div style={{marginTop: "10px"}}></div>
                     <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                        <Typography component="h1" variant="h5" align="left">
+                        <Typography component="h1" variant="h5" align="left" style={{color: COLORS.BLUE}}>
                             Address Line 1
                         </Typography>
                         <TextField
@@ -444,7 +451,7 @@ const Login = () => {
                         />
                     </div>
                     <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                        <Typography component="h1" variant="h5" align="left">
+                        <Typography component="h1" variant="h5" align="left" style={{color: COLORS.BLUE}}>
                             Address Line 2
                         </Typography>
                         <TextField
@@ -461,7 +468,7 @@ const Login = () => {
                     <Grid container>
                         <Grid item lg={5} md={5} sm={5} xs={5}>
                             <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                <Typography component="h1" variant="h5" align="left">
+                                <Typography component="h1" variant="h5" align="left" style={{color: COLORS.BLUE}}>
                                     Postal Code
                                 </Typography>
                                 <TextField
@@ -478,7 +485,7 @@ const Login = () => {
                         </Grid>
                         <Grid item lg={7} md={7} sm={7} xs={7}>
                             <div style={{display: 'flex', flexDirection: 'column', marginLeft: "10px", marginRight: "10px"}}>
-                                <Typography component="h1" variant="h5" align="left">
+                                <Typography component="h1" variant="h5" align="left" style={{color: COLORS.BLUE}}>
                                     Household Type
                                 </Typography>
                                 <FormControl margin="normal" variant="outlined">

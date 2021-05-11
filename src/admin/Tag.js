@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { Grid, Table, TableHeaderRow, TableEditRow, TableEditColumn } from '@devexpress/dx-react-grid-material-ui';
 import { EditingState } from '@devexpress/dx-react-grid';
 import API from "../utils/API"
-import { ENDPOINT } from "../utils/config";
+import { ENDPOINT, COLORS } from "../utils/config";
 import { Paper, CircularProgress, Button, Grid as Container } from '@material-ui/core';
 
 const Tag = (props) => {
@@ -234,22 +234,23 @@ const Tag = (props) => {
     } else {
         return (
             <div style={{height: "auto", width: "100%"}}>
-                <div style={{marginTop: "10px"}}></div>
+                <div style={{marginTop: "20px"}}></div>
                 <Container container>
-                    <Container item lg={4} md={4} sm={4} xs={4} style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                        <Button variant="outlined" size="large" onClick={props.onMenuButtonClick}>
+                    <Container item lg={4} md={4} sm={4} xs={4} style={{display: "flex", alignItems: "center", justifyContent: "flex-start"}}>
+                        <Button style={{marginLeft: "80px"}} variant="outlined" size="large" onClick={props.onMenuButtonClick}>
                             Menu
                         </Button>
                     </Container>
                     <Container item lg={4} md={4} sm={4} xs={4} style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                        <h1 style={{marginBottom: "0px", marginTop: "0px"}}>Tags</h1>
+                        <h1 style={{marginBottom: "0px", marginTop: "0px", color: COLORS.BLUE}}>Tags</h1>
                     </Container>
                     <Container item lg={4} md={4} sm={4} xs={4}>
                         
                     </Container>
                 </Container>
+                <div style={{marginTop: "20px"}} />
                 <div style={{justifyContent: "center", display: "flex"}}>
-                    <Paper style={{width: "80%"}}>
+                    <Paper style={{width: "90%"}}>
                         <Grid
                             rows={tags}
                             columns={[

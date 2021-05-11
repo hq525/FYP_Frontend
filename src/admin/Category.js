@@ -19,7 +19,7 @@ const Category = (props) => {
     const [categoryMap, setCategoryMap] = useState(new Map());
     const [open, setOpen] = useState(false);
     const [selectedCategoryID, setSelectedCategoryID] = useState(null);
-    const [loading, setLoading] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [editingRowIds, setEditingRowIds] = React.useState([]);
     const [rowChanges, setRowChanges] = React.useState({});
     const [addedRows, setAddedRows] = React.useState([]);
@@ -275,22 +275,23 @@ const Category = (props) => {
     } else {
         return (
             <div style={{height: "auto", backgroundColor: COLORS.WHITE}}>
-                <div style={{marginTop: "10px"}}></div>
+                <div style={{marginTop: "20px"}}></div>
                 <Container container>
-                    <Container item lg={4} md={4} sm={4} xs={4} style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                        <Button variant="outlined" size="large" onClick={props.onMenuButtonClick}>
+                    <Container item lg={4} md={4} sm={4} xs={4} style={{display: "flex", alignItems: "center", justifyContent: "flex-start"}}>
+                        <Button style={{marginLeft: "80px"}} variant="outlined" size="large" onClick={props.onMenuButtonClick}>
                             Menu
                         </Button>
                     </Container>
                     <Container item lg={4} md={4} sm={4} xs={4} style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                        <h1 style={{marginBottom: "0px", marginTop: "0px"}}>Categories</h1>
+                        <h1 style={{marginBottom: "0px", marginTop: "0px", color: COLORS.BLUE}}>Categories</h1>
                     </Container>
                     <Container item lg={4} md={4} sm={4} xs={4}>
                         
                     </Container>
                 </Container>
+                <div style={{marginTop: "20px"}} />
                 <div style={{justifyContent: "center", display: "flex"}}>
-                    <Paper style={{width: "80%"}}>
+                    <Paper style={{width: "90%"}}>
                         <Grid
                             rows={categories}
                             columns={[

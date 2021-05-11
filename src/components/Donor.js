@@ -132,8 +132,8 @@ const Donor = (props) => {
                 data.deliveries.forEach((delivery) => {
                     deliveryRequestsData.push({
                         id : delivery['id'],
-                        beneficiaryFirstName : delivery['firstName'],
-                        beneficiaryLastName : delivery['lastName'],
+                        beneficiaryFirstName : delivery['beneficiaryFirstName'],
+                        beneficiaryLastName : delivery['beneficiaryLastName'],
                         collectionDateTime : new Date(delivery['collectionDateTime'].replace("T", " ") + " UTC"),
                         itemName : delivery['itemName'],
                         quantity : delivery['quantity'],
@@ -724,8 +724,8 @@ const Donor = (props) => {
         return (
             <div style={{height: "100%", backgroundColor: COLORS.WHITE}}>
                 <NavBar {...props}  />
-                <div style={{width: "100%", height: "auto", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <CircularProgress size={50} />
+                <div style={{width: "100%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <CircularProgress size={100} />
                 </div>
             </div>
         )
@@ -758,6 +758,9 @@ const Donor = (props) => {
                                 </Select>
                             </FormControl>
                         </Grid>
+                        <Grid item sm={12} lg={12} md={12} xs={12}>
+                            <div style={{marginTop: "20px"}} />
+                        </Grid>
                         { category && (
                             <Grid item lg={3} md={3} sm={3} xs={3} >
                                 <Typography style={{color: COLORS.GREEN, paddingLeft: '20px', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}} variant="h4">
@@ -781,6 +784,13 @@ const Donor = (props) => {
                                 </FormControl>
                             </Grid>
                         )}
+                        {
+                            category && (
+                                <Grid item sm={12} lg={12} md={12} xs={12}>
+                                    <div style={{marginTop: "20px"}} />
+                                </Grid>
+                            )
+                        }
                         <Grid item lg={3} md={3} sm={3} xs={3} >
                             <Typography style={{color: COLORS.GREEN, paddingLeft: '20px', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}} variant="h4">
                                 <b>Quantity</b>
@@ -789,13 +799,19 @@ const Donor = (props) => {
                         <Grid item lg={9} md={9} sm={9} xs={9} style={{display: "flex", justifyContent: "left"}}>
                             <InputNumber min={1} value={quantity} onChange={(value) => {setQuantity(value)}} />
                         </Grid>
-                        <Grid item lg={3} md={3} sm={3} xs={3} >
+                        <Grid item sm={12} lg={12} md={12} xs={12}>
+                            <div style={{marginTop: "20px"}} />
+                        </Grid>
+                        {/* <Grid item lg={3} md={3} sm={3} xs={3} >
                             <Typography style={{color: COLORS.GREEN, paddingLeft: '20px', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}} variant="h4">
                                 <b>Price</b>
                             </Typography>
                         </Grid>
                         <Grid item lg={9} md={9} sm={9} xs={9} style={{display: "flex", justifyContent: "left"}}>
                             <InputNumber precision={2} min={0} value={price} onChange={(value) => {setPrice(value)}} />
+                        </Grid> */}
+                        <Grid item sm={12} lg={12} md={12} xs={12}>
+                            <div style={{marginTop: "20px"}} />
                         </Grid>
                         <Grid item lg={3} md={3} sm={3} xs={3} >
                             <Typography style={{color: COLORS.GREEN, paddingLeft: '20px', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}} variant="h4">
@@ -820,6 +836,9 @@ const Donor = (props) => {
                                 />
                             </div>
                         </Grid>
+                        <Grid item sm={12} lg={12} md={12} xs={12}>
+                            <div style={{marginTop: "20px"}} />
+                        </Grid>
                         <Grid item lg={3} md={3} sm={3} xs={3} >
                             <Typography style={{color: COLORS.GREEN, paddingLeft: '20px', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}} variant="h4">
                                 <b>Description</b>
@@ -827,6 +846,9 @@ const Donor = (props) => {
                         </Grid>
                         <Grid item lg={9} md={9} sm={9} xs={9} style={{display: "flex", justifyContent: "left"}}>
                             <TextareaAutosize value={description} onChange={(e) => {setDescription(e.target.value)}}/>
+                        </Grid>
+                        <Grid item sm={12} lg={12} md={12} xs={12}>
+                            <div style={{marginTop: "20px"}} />
                         </Grid>
                         <Grid item lg={3} md={3} sm={3} xs={3} >
                             <Typography style={{color: COLORS.GREEN, paddingLeft: '20px', height: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}} variant="h4">
@@ -839,6 +861,9 @@ const Donor = (props) => {
                             selected={selectedTags}
                             onSelectedChanged={selected => setSelectedTags(selected)}
                             />
+                        </Grid>
+                        <Grid item sm={12} lg={12} md={12} xs={12}>
+                            <div style={{marginTop: "20px"}} />
                         </Grid>
                         { errorMessage && <h3 style={{color: "red"}}>{errorMessage}</h3>}
                         <Grid item lg={12} md={12} sm={12} xs={12}>

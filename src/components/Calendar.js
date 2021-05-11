@@ -47,20 +47,20 @@ const Calendar = (props) => {
                 temp2.push(yr)
             }
             setYears(temp2);
-            await getAvailableDates();
+            await getAvailableDates(year);
             setLoading(false);
         }
         initialize()
     }, [])
 
-    const getAvailableDates = () => {
+    const getAvailableDates = (yr) => {
         let api = new API();
         let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
         api.setAuthorizationToken(localStorage.access_token)
         return new Promise((resolve, reject) => {
             api
             .post(`${ENDPOINT}/availability/get`, {
-                year,
+                year: yr,
                 timezone
             })
             .then((data) => {
@@ -76,7 +76,7 @@ const Calendar = (props) => {
                     temp.push(
                         <Grid item xs={3} sm={3} md={3} lg={3} style={{padding: "7px"}}>
                             <h2 style={{marginTop: "0px", marginBottom: "0px"}}>{monthss[monthIndex]}</h2>
-                            <MonthView tileClassName={({ date, view}) => ((view === 'month') && (tempSet.has(`${date.getDate()},${date.getMonth()+1}`))) ? 'available' : null} onClick={(value) => handleDateClick(value)} activeStartDate={new Date(new Date().getFullYear(), monthIndex)} />
+                            <MonthView tileClassName={({ date, view}) => ((view === 'month') && (tempSet.has(`${date.getDate()},${date.getMonth()+1}`))) ? 'available' : null} onClick={(value) => handleDateClick(value)} activeStartDate={new Date(yr, monthIndex)} />
                         </Grid>
                     );
                 }
@@ -108,7 +108,7 @@ const Calendar = (props) => {
                                     temp.push(
                                         <Grid item xs={3} sm={3} md={3} lg={3} style={{padding: "7px"}}>
                                             <h2 style={{marginTop: "0px", marginBottom: "0px"}}>{monthss[monthIndex]}</h2>
-                                            <MonthView tileClassName={({ date, view}) => ((view === 'month') && (tempSet.has(`${date.getDate()},${date.getMonth()+1}`))) ? 'available' : null} onClick={(value) => handleDateClick(value)} activeStartDate={new Date(new Date().getFullYear(), monthIndex)} />
+                                            <MonthView tileClassName={({ date, view}) => ((view === 'month') && (tempSet.has(`${date.getDate()},${date.getMonth()+1}`))) ? 'available' : null} onClick={(value) => handleDateClick(value)} activeStartDate={new Date(yr, monthIndex)} />
                                         </Grid>
                                     );
                                 }
@@ -143,18 +143,25 @@ const Calendar = (props) => {
         setOpen(true);
     }
 
+    const handleYearChange = async (value) => {
+        setLoading(true)
+        setYear(value)
+        await getAvailableDates(value)
+        setLoading(false)
+    }
+
     const handleClose = async () => {
         setOpen(false)
         setLoading(true)
-        await getAvailableDates()
+        await getAvailableDates(year)
         setLoading(false);
     }
     if (loading) {
         return(
             <div style={{height: "100%", backgroundColor: COLORS.WHITE}}>
                 <NavBar {...props}  />
-                <div style={{width: "100%", height: "auto", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <CircularProgress size={50} />
+                <div style={{width: "100%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <CircularProgress size={100} />
                 </div>
             </div>
         )
@@ -167,8 +174,9 @@ const Calendar = (props) => {
                     <div style={{width: 300}}>
                         <Combobox 
                         data={years}
+                        value={year}
                         defaultValue={new Date().getFullYear()}
-                        onChange = {value => {setYear(value)}}
+                        onChange = {value => {handleYearChange(value)}}
                         />
                     </div>
                 </div>
